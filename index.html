@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>宝贝学堂学习乐</title>
+<style>
+body{
+font-family:Arial;
+text-align:center;
+background:linear-gradient(to bottom,#6a5acd,#ffb6c1);
+color:white;
+padding:30px;
+}
+button{
+padding:10px 20px;
+border:none;
+border-radius:10px;
+background:#ff69b4;
+color:white;
+font-size:18px;
+}
+#word{
+font-size:50px;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌟 宝贝学堂学习乐 🌟</h1>
+
+<p>快乐学习 · 快乐成长</p>
+
+<button onclick="showWord()">随机生字</button>
+
+<button onclick="speakWord()">🔊朗读</button>
+
+<div id="word"></div>
+
+<script>
+
+let words=[
+"雨",
+"苹果",
+"老师",
+"学校",
+"朋友"
+];
+
+function showWord(){
+let w=words[Math.floor(Math.random()*words.length)];
+document.getElementById("word").innerHTML=w;
+}
+
+function speakWord(){
+let w=words[Math.floor(Math.random()*words.length)];
+document.getElementById("word").innerHTML=w;
+
+let speech=new SpeechSynthesisUtterance(w);
+speech.lang="zh-CN";
+speechSynthesis.speak(speech);
+}
+
+</script>
+
+</body>
+</html>
