@@ -1,73 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
-<img src="logo.jpg" width="120">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<h1>🌟 宝贝学堂学习乐 🌟</h1>
+<title>宝贝学堂学习乐</title>
 
-<p>欢迎来到宝贝学堂线上学习乐园</p>
 <style>
+
 body{
-font-family:Arial;
+margin:0;
+font-family:"Microsoft JhengHei",sans-serif;
+background:linear-gradient(to bottom,#3d2dbd,#6c63ff,#ffb6c1);
 text-align:center;
-background:linear-gradient(to bottom,#4b3fbe,#7b68ee,#ffb6c1);
 color:white;
-padding:30px;
+min-height:100vh;
+overflow-x:hidden;
 }
-button{
-padding:10px 20px;
-border:none;
-border-radius:10px;
-background:#ff69b4;
-color:white;
+
+.logo{
+width:140px;
+margin-top:20px;
+border-radius:20px;
+background:white;
+padding:8px;
+}
+
+h1{
+font-size:36px;
+margin:10px;
+}
+
+.subtitle{
 font-size:18px;
+margin-bottom:20px;
 }
+
+.card{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(10px);
+width:90%;
+max-width:350px;
+margin:15px auto;
+padding:20px;
+border-radius:20px;
+}
+
+button{
+background:#ff69b4;
+border:none;
+padding:12px 20px;
+margin:5px;
+border-radius:12px;
+color:white;
+font-size:16px;
+}
+
+button:hover{
+opacity:0.9;
+}
+
 #word{
-font-size:50px;
+font-size:48px;
+font-weight:bold;
 margin-top:20px;
 }
+
+#stars{
+font-size:24px;
+}
+
+textarea{
+width:90%;
+height:100px;
+border-radius:12px;
+padding:10px;
+}
+
+.star{
+position:fixed;
+font-size:20px;
+animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+0%{opacity:0.2}
+50%{opacity:1}
+100%{opacity:0.2}
+}
+
 </style>
 </head>
 
 <body>
 
+<img src="IMG_0939.jpeg" class="logo">
+
 <h1>🌟 宝贝学堂学习乐 🌟</h1>
 
-<p>快乐学习 · 快乐成长</p>
+<div class="subtitle">
+快乐学习 · 快乐成长
+</div>
 
-<button onclick="showWord()">随机生字</button>
+<div class="card">
 
-<button onclick="speakWord()">🔊朗读</button>
+<h2>👩‍🏫 老师新增生字</h2>
+
+<textarea id="newWords"
+placeholder="每行输入一个生字"></textarea>
+
+<br><br>
+
+<button onclick="saveWords()">
+保存生字
+</button>
+
+</div>
+
+<div class="card">
+
+<h2>📚 生字学习</h2>
+
+<button onclick="showWord()">
+随机生字
+</button>
+
+<button onclick="speakWord()">
+🔊 朗读
+</button>
 
 <div id="word"></div>
 
+</div>
+
+<div class="card">
+
+<h2>⭐ 我的星星</h2>
+
+<div id="stars">0 ⭐</div>
+
+</div>
+
 <script>
 
-let words=[
+for(let i=0;i<40;i++){
+
+let star=document.createElement("div");
+
+star.className="star";
+
+star.innerHTML="⭐";
+
+star.style.left=Math.random()*100+"%";
+
+star.style.top=Math.random()*100+"%";
+
+document.body.appendChild(star);
+
+}
+
+let words=
+JSON.parse(localStorage.getItem("words"))
+||
+[
 "雨",
 "苹果",
-"老师",
 "学校",
+"老师",
 "朋友"
 ];
 
+let stars=
+Number(localStorage.getItem("stars"))
+||0;
+
+document.getElementById("stars").innerHTML=
+stars+" ⭐";
+
+function saveWords(){
+
+let text=
+document.getElementById("newWords").value;
+
+words=text.split("\n");
+
+localStorage.setItem(
+"words",
+JSON.stringify(words)
+);
+
+alert("保存成功！");
+}
+
 function showWord(){
-let w=words[Math.floor(Math.random()*words.length)];
-document.getElementById("word").innerHTML=w;
+
+let random=
+words[Math.floor(Math.random()*words.length)];
+
+document.getElementById("word").innerHTML=
+random;
+
+stars++;
+
+localStorage.setItem("stars",stars);
+
+document.getElementById("stars").innerHTML=
+stars+" ⭐";
+
 }
 
 function speakWord(){
-let w=words[Math.floor(Math.random()*words.length)];
-document.getElementById("word").innerHTML=w;
 
-let speech=new SpeechSynthesisUtterance(w);
+let random=
+words[Math.floor(Math.random()*words.length)];
+
+document.getElementById("word").innerHTML=
+random;
+
+let speech=
+new SpeechSynthesisUtterance(random);
+
 speech.lang="zh-CN";
+
 speechSynthesis.speak(speech);
+
+stars++;
+
+localStorage.setItem("stars",stars);
+
+document.getElementById("stars").innerHTML=
+stars+" ⭐";
+
 }
 
 </script>
 
 </body>
 </html>
-<div style="font-size:40px">🌙 ⭐ ☁️ ⭐ 🌙</div>
